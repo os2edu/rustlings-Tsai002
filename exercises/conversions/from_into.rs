@@ -37,28 +37,18 @@ impl Default for Person {
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
-        if s.len() == 0 {
-            return Person::default();
+        if let Some((name, age)) = s.split_once(',') {
+            if !name.is_empty() {
+                if let Ok(age) = age.parse() {
+                    return Person {
+                        name: name.into(),
+                        age,
+                    };
+                }
+            }
         }
 
-        let Some((name, age)) =  s.split_once(',') else{
-            return Person::default();
-        };
-
-        if name.is_empty() {
-            return Person::default();
-        }
-
-        if let Ok(age) = age.parse() {
-            age
-        } else {
-            return Person::default();
-        };
-
-        Person {
-            name: name.into(),
-            age,
-        }
+        Person::default()
     }
 }
 

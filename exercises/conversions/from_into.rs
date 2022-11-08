@@ -49,7 +49,9 @@ impl From<&str> for Person {
             return Person::default();
         }
 
-        let Ok(age )=age.parse() else{
+        if let Ok(age) = age.parse() {
+            age
+        } else {
             return Person::default();
         };
 
